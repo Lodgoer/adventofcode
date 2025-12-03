@@ -8,7 +8,7 @@ var path = @"C:\Users\Lenovo\Desktop\input.txt";
 
 if (!File.Exists(path))
 {
-    Console.WriteLine($"فایل پیدا نشد: {path}");
+    Console.WriteLine($"File Does Not Exist: {path}");
     return;
 }
 
@@ -27,14 +27,13 @@ foreach (var d in directions)
 {
     int delta = d.Turn == 'R' ? 1 : -1;
 
-    // پیدا کردن کوچک‌ترین t>0 که start + delta * t ≡ 0 (mod 100)
     int t0;
     if (delta == 1) // R
         t0 = (100 - (start % 100)) % 100;
     else // L
         t0 = start % 100;
 
-    if (t0 == 0) t0 = 100; // اگر t0==0 یعنی موقع شروع روی صفریم؛ اولین عبور بعد از 100 کلیک خواهد بود
+    if (t0 == 0) t0 = 100;
 
     int hits = 0;
     if (t0 <= d.Steps)
@@ -44,7 +43,6 @@ foreach (var d in directions)
 
     password += hits;
 
-    // آپدیت موقعیت نهایی برای دور بعدی
     start = (start + delta * d.Steps) % 100;
     if (start < 0) start += 100;
 }

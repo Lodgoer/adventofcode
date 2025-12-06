@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-
-var path = @"C:\Users\Lenovo\Desktop\input3.txt"; //get path
+﻿var path = @"C:\Users\Lenovo\Desktop\input3.txt"; //get path
 
 var lines = File.ReadAllLines(path); //read each line
 var ids = new List<int>(); //cretae a list of id from each line(two digit number)

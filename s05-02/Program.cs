@@ -11,7 +11,7 @@ class Program
         var lines = File.ReadAllLines(path);
 
         List<(long start, long end)> ranges = new();
-        List<long> ids = new();
+        //List<long> ids = new();
 
         bool readingRanges = true;
 
@@ -34,25 +34,18 @@ class Program
                 if (b < a) (a, b) = (b, a);
                 ranges.Add((a, b));
             }
-            else
-            {
-                if (!long.TryParse(line, out var id)) throw new FormatException($"Bad id line: '{line}'");
-                ids.Add(id);
-            }
-        }
+            
 
+        }
         var merged = MergeRanges(ranges);
-        long freshCount = 0;
 
-        foreach (var id in ids)
-        {
-            if (IsFresh(id, merged))
-                freshCount++;
-        }
+        // محاسبه تعداد کل اعداد داخل بازه‌ها
+        long total = merged.Sum(r => r.end - r.start + 1);
 
-        Console.WriteLine($"Fresh Count = {freshCount}");
+        Console.WriteLine($"Total numbers inside ranges = {total}");
     }
 
+    // ============= ادغام بازه‌ها =============
     static List<(long start, long end)> MergeRanges(List<(long start, long end)> ranges)
     {
         var sorted = ranges.OrderBy(r => r.start).ThenBy(r => r.end).ToList();
@@ -66,32 +59,16 @@ class Program
                 continue;
             }
 
-            var last = merged[merged.Count - 1];
-            if (s <= last.end + 1) // overlap or adjacent -> merge
-            {
-                merged[merged.Count - 1] = (last.start, Math.Max(last.end, e));
-            }
+            var last = merged[^1];
+
+            if (s <= last.end + 1) // همپوشانی دارد
+                merged[^1] = (last.start, Math.Max(last.end, e));
             else
-            {
                 merged.Add((s, e));
-            }
         }
 
         return merged;
     }
-
-    static bool IsFresh(long id, List<(long start, long end)> mergedRanges)
-    {
-        // binary search over merged intervals
-        int lo = 0, hi = mergedRanges.Count - 1;
-        while (lo <= hi)
-        {
-            int mid = (lo + hi) >> 1;
-            var (s, e) = mergedRanges[mid];
-            if (id < s) hi = mid - 1;
-            else if (id > e) lo = mid + 1;
-            else return true; // id in [s, e]
-        }
-        return false;
-    }
 }
+
+

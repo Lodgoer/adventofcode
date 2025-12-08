@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-
-var path = @"C:\Users\Lenovo\Desktop\input3.txt";
+﻿var path = @"C:\Users\Lenovo\Desktop\input3.txt";
 
 if (!File.Exists(path))
 {

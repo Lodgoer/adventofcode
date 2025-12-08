@@ -47,13 +47,13 @@ class Program
                 for (int c = 0; c < cols; c++)
                     if (map[r, c] == '@' && CountNeighbors(r, c) < 4)
                     {
-                        map[r, c] = '.';   // حذف رول
+                        map[r, c] = '.';  
                         removedTotal++;
                         removedAnyThisRound = true;
                     }
 
             if (!removedAnyThisRound)
-                break; // دیگر قابل حذف نیست → پایان
+                break; 
         }
 
         Console.WriteLine(removedTotal);
